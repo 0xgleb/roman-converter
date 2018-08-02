@@ -1,6 +1,13 @@
 module Main where
 
-import Data.String.Strip
+import           Safe
+
+import           Converter (convert)
 
 main :: IO ()
-main = interact strip
+main = do
+    putStrLn "Enter a positive integer: "
+    getLine >>= putStrLn
+              . either ("Error: " ++) id
+              . maybe (Left "Invalid input!") convert
+              . readMay
